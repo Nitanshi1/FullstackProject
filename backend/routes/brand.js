@@ -1,43 +1,41 @@
 const express = require("express");
+const {
+  addBrand,
+  getBrand,
+  getBrands,
+  updateBrand,
+  deleteBrand,
+} = require("../handlers/brand-handler");
 const router = express.Router();
 
-const {
-  addCategory,
-  deleteCategory,
-  updateCategory,
-  getCategories,
-  getCategoryById,
-} = require("../handlers/category-handlers");
-
-
-
 router.post("/", async (req, res) => {
-  //  console.log("here");
   let model = req.body;
-  let result = await addCategory(model);
+  let result = await addBrand(model);
   res.send(result);
 });
+
 router.get("/", async (req, res) => {
-  let result = await getCategories();
-  res.send(result);
+  let brands = await getBrands();
+  res.send(brands);
 });
 
 router.get("/:id", async (req, res) => {
   let id = req.params["id"];
-  let result = await getCategoryById(id);
-  res.send(result);
+  let brand = await getBrand(id);
+  res.send(brand);
 });
 
 router.put("/:id", async (req, res) => {
   let model = req.body;
   let id = req.params["id"];
-  await updateCategory(id, model);
+  await updateBrand(id, model);
   res.send({ message: "updated" });
 });
 
 router.delete("/:id", async (req, res) => {
   let id = req.params["id"];
-  await deleteCategory(id);
+  await deleteBrand(id);
   res.send({ message: "deleted!" });
 });
+
 module.exports = router;
