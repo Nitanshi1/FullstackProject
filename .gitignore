@@ -39,6 +39,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+<<<<<<< HEAD
 environment.ts
 
 
@@ -87,4 +88,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+=======
+>>>>>>> newbackend
 environment.ts
