@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json()); //middlewareee
 
 app.get("/", (req, res) => {
-    res.send("server running");
+    res.send("server is running");
 });
 app.use("/category", verifyToken, isAdmin, categoryRoutes);
 app.use("/brand", verifyToken, isAdmin, brandRoutes);
