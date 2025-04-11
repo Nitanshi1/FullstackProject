@@ -1,4 +1,7 @@
 const Wishlist = require("./../db/wishlist");
+
+
+
 async function addToWishlist(userId, productId) {
   const wishlist = new Wishlist({
     userId: userId,
@@ -14,7 +17,7 @@ async function removeFromWishlist(userId, productId) {
   });
 }
 async function getWishlist(userId) {
-  let wishlists = await Wishlist.find({ userId: userId });//.populate("productId");
+  let wishlists = await Wishlist.find({ userId: userId }).populate("productId");
   return wishlists.map((x) => x.toObject().productId);
 }
 module.exports = {  getWishlist, addToWishlist , removeFromWishlist};
