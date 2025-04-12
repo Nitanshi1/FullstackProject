@@ -19,10 +19,15 @@ async function addToCart(userId, productId, quantity) {
   let product = await Cart.findOne({ userId: userId, productId: productId });
 
   if (product) {
-    await Cart.findOneAndUpdate(
-      { _id: product._id },
-      { $inc: { quantity: quantity } }
-    );
+    if(product.quantity + quantity == 0){
+await removeFromCart(userId, productId)
+    }else{
+      await Cart.findOneAndUpdate(
+        { _id: product._id },
+        { $inc: { quantity: quantity } }
+      );
+    }
+  
   } else {
     const newProduct = new Cart({
       userId: userId,
@@ -44,4 +49,11 @@ async function getCart(userId) {
   });
 }
 
-module.exports = { getCart, addToCart, removeFromCart };
+
+async function clearCart(userId){
+  await Cart.deleteMany({
+    userId:userId,
+  })
+}
+
+module.exports = { getCart, addToCart, removeFromCart , clearCart};

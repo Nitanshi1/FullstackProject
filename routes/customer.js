@@ -13,12 +13,12 @@ const {
   removeFromWishlist,
 } = require("../handlers/wishlist-handler");
 
+const { addOrder, getCustomerOrders } = require("../handlers/order-handler");
 const {
   getCart,
   addToCart,
-  removeFromCart
-  
-
+  removeFromCart,
+  clearCart,
 } = require("../handlers/shopping-cart-handler");
 const router = express.Router();
 
@@ -82,9 +82,8 @@ router.delete("/wishlists/:id", async (req, res) => {
   const userId = req.user.id;
   const productId = req.params.id;
   await removeFromWishlist(userId, productId);
-  res.send({message:"okay"});
+  res.send({ message: "okay" });
 });
-
 
 router.get("/carts", async (req, res) => {
   console.log(req.user);
@@ -93,14 +92,13 @@ router.get("/carts", async (req, res) => {
   res.send(items);
 });
 
-
 router.post("/carts/:id", async (req, res) => {
   console.log(req.user);
   const userId = req.user.id;
   const productId = req.params.id;
   const quantity = req.body.quantity;
 
-  const item = await addToCart(userId, productId,quantity);
+  const item = await addToCart(userId, productId, quantity);
   res.send(item);
 });
 
@@ -112,6 +110,24 @@ router.delete("/carts/:id", async (req, res) => {
   res.send(items);
 });
 
+router.post("/order", async (req, res) => {
+  const userId = req.user.id;
 
+  const order = req.body;
 
+  await addOrder(userId, order);
+  await clearCart(userId);
+
+  return res.send({
+    message: "Order Created..",
+  });
+});
+
+router.get("/orders", async (req, res) => {
+  const userId = req.user.id;
+
+  const orders = await getCustomerOrders(userId);
+
+  return res.send(orders);
+});
 module.exports = router;

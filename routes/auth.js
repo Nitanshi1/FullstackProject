@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
     try {
       const result = await loginUser(model);
 
-      if (result) {
+      if (result.success==true) {
         res.json(result); // Send the login result (e.g., token or user data)
       } else {
         res.status(400).json({
